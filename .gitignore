@@ -1,0 +1,5 @@
+.DS_Store
+styles/main.css
+styles/main.css.map
+styles/tailwind.css
+/node_modules

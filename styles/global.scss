@@ -1,0 +1,14 @@
+@use './variables.scss' as *;
+
+body {
+  font-family: 'DM Sans';
+  color: #060606;
+
+  @include min-w(sm) {
+
+  }
+
+  @include min-w(lg) {
+    
+  }
+}
