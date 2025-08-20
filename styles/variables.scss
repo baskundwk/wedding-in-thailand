@@ -1,13 +1,29 @@
-@use 'sass:map';
+@use "sass:map";
 
 $breakpoints: (
   xs: 480px,
-  sm: 640px, // Breakpoint for mobile-tablet
+  sm: 640px,
+  // Breakpoint for mobile-tablet
   md: 768px,
-  lg: 1024px, // Breakpoint for tablet-desktop
-  xl: 1280px, // Breakpoint to prevent blow-out
-  xxl: 1536px
+  lg: 1024px,
+  // Breakpoint for tablet-desktop
+  xl: 1280px,
+  // Breakpoint to prevent blow-out
+  xxl: 1536px,
 );
+
+// Colors
+$primaryColor: #017da9;
+$baseColor10: #ffffff;
+$baseColor30: #f5f5f5;
+$baseColor40: #f0f0f0;
+$baseColor80: #595959;
+$baseColor400: #060606;
+$baseColorBlue10: #54a0ff;
+
+@function color($name) {
+  @return map-get($colors, $name);
+}
 
 @mixin min-w($breakpoint) {
   $value: map.get($breakpoints, $breakpoint);
