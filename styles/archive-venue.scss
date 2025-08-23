@@ -1,0 +1,65 @@
+@use "./variables.scss" as *;
+
+.wit-sc_recommend {
+  .wit-location-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @include max-w(lg) {
+      justify-content: center;
+    }
+
+    .wit-location-thailand {
+      padding-left: 48px;
+      max-width: 175px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      @include max-w(lg) {
+        display: none;
+        justify-content: center;
+      }
+    }
+
+    .wit-location-group {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+
+      gap: 16px 8px;
+
+      @include max-w(lg) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .wit-location-group_item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: $baseColor400;
+        font-weight: 500;
+
+        .wit-location-group_item_img {
+          max-width: 130px;
+          max-height: 148px;
+          border-radius: 8px;
+          overflow: hidden;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+}

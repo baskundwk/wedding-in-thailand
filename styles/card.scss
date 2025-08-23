@@ -1,15 +1,146 @@
 @use "./variables.scss" as *;
 
-// ------- Card with button -------
+.wit-sc_inner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 16px;
 
-.wit-card_with_btn {
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    @include max-w(lg) {
+      font-size: 20px;
+    }
+  }
+
+  .wit-sc_inner-header_right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 8px;
+
+    .wit-link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      color: $baseColor400;
+      font-size: 12px;
+      font-weight: 400;
+      cursor: pointer;
+      .wit-link_icon {
+        width: 16px;
+        height: 16px;
+        transform: rotate(180deg);
+      }
+    }
+  }
+  .wit-swiper-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+
+    @include max-w(md) {
+      display: none;
+    }
+
+    .wit-swiper-button-next,
+    .wit-swiper-button-prev {
+      width: 24px;
+      height: 24px;
+      background: $baseColor40;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: url(../assets/images/icons/ic-arrow-left.svg) no-repeat
+          center center;
+      }
+    }
+
+    .wit-swiper-button-next {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.wit-swiper-card {
+  .swiper-wrapper {
+    align-items: stretch;
+  }
+
+  .swiper-slide {
+    height: auto;
+    display: flex;
+
+    .wit-card,
+    .wit-card-short {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  // Mobile styles to extend swiper beyond container
+  @include max-w(md) {
+    margin-right: -20px !important; // Extend beyond container on mobile
+    padding-right: 20px !important; // Add padding to maintain content spacing
+  }
+
+  .wit-swiper-card-pagination {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include min-w(md) {
+      display: none;
+    }
+
+    .swiper-pagination-bullet {
+      width: 8px;
+      height: 8px;
+      background: $baseColor40;
+      border-radius: 50%;
+      margin: 0 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+
+      &.swiper-pagination-bullet-active {
+        background: $baseColor400;
+        width: 10px;
+        height: 10px;
+      }
+    }
+  }
+}
+
+// ------- Card -------
+.wit-card {
   max-width: 300px;
   width: 100%;
+  height: 100%;
 
-  .wit-card_with_btn-img_swiper {
+  .wit-card-img_swiper {
+    max-width: 100%;
     position: relative;
 
-    .wit-card_with_btn-img_wrapper {
+    .wit-card-img_wrapper {
       max-height: 200px;
       position: relative;
       border-radius: 8px;
@@ -54,16 +185,18 @@
     }
   }
 
-  .wit-card_with_btn-content {
+  .wit-card-content {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    justify-content: space-between;
+    flex: 1;
     padding: 8px 4px 4px;
 
-    .wit-card_with_btn-details {
+    .wit-card-details {
       display: flex;
       flex-direction: column;
       gap: 4px;
+      flex: 1;
 
       p {
         margin: 0;
@@ -72,7 +205,7 @@
         font-weight: 400;
       }
 
-      .wit-card_with_btn-title {
+      .wit-card-title {
         margin: 0;
         font-size: 16px;
         font-weight: 600;
@@ -93,8 +226,171 @@
         gap: 4px;
       }
 
-      .wit-card_with_btn-price,
-      .wit-card_with_btn-guest_capacity {
+      .wit-card-price,
+      .wit-card-guest_capacity {
+        p {
+          font-size: 12px;
+        }
+
+        h4 {
+          font-size: 16px;
+          font-weight: 600;
+          color: $baseColor400;
+          margin: 0;
+        }
+      }
+    }
+
+    .wit-btn {
+      margin-top: 16px;
+    }
+  }
+
+  .wit-tag {
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 400;
+
+    background: $baseColor30;
+    border-radius: 4px;
+    width: fit-content;
+    cursor: pointer;
+
+    &.wit-tag_primary {
+      background: $baseColor10;
+      color: $primaryColor;
+    }
+  }
+
+  .wit-link {
+    font-size: 12px;
+    font-weight: 400;
+    color: $baseColorBlue10;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .wit-btn {
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    padding: 13px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+
+    &.wit-btn_primary {
+      background: radial-gradient(
+        circle,
+        rgba($primaryColor, 0.7) 0%,
+        $primaryColor 100%
+      );
+      color: $baseColor10;
+    }
+  }
+}
+
+// ------- Card short -------
+.wit-card-short {
+  max-width: 240px;
+  width: 100%;
+
+  .wit-card-img_swiper {
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+
+    .wit-card-img_wrapper {
+      max-height: 150px;
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .wit-tag {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+      }
+    }
+
+    .swiper-pagination {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+
+      .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        background: $baseColor40;
+        border-radius: 50%;
+        margin: 0 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-block;
+
+        &.swiper-pagination-bullet-active {
+          background: $baseColor400;
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+  }
+
+  .wit-card-content {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 4px 4px;
+    flex: 1;
+
+    .wit-card-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      p {
+        margin: 0;
+        color: $baseColor80;
+        font-size: 10px;
+        font-weight: 400;
+      }
+
+      .wit-card-title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        line-height: 1.4;
+        max-height: 2.8em;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+
+      .wit-tag_wrapper {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .wit-card-price,
+      .wit-card-guest_capacity {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 4px;
+
         p {
           font-size: 12px;
         }
@@ -149,6 +445,38 @@
         $primaryColor 100%
       );
       color: $baseColor10;
+    }
+  }
+}
+
+// ------- Grid card -------
+.wit-grid-card {
+  .wit-grid-card_wrapper {
+    display: grid;
+    column-gap: 16px;
+    row-gap: 32px;
+
+    @include max-w(md) {
+      gap: 16px;
+    }
+
+    .wit-card-short {
+      max-width: 100%;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+
+      @include max-w(lg) {
+        &:nth-child(n + 7) {
+          display: none;
+        }
+      }
+
+      .wit-card-img_swiper {
+        .wit-card-img_wrapper {
+          max-height: 200px;
+        }
+      }
     }
   }
 }

@@ -1,14 +1,20 @@
-@use './variables.scss' as *;
+@use "./variables.scss" as *;
 
 body {
-  font-family: 'DM Sans';
+  font-family: "DM Sans";
   color: #060606;
 
   @include min-w(sm) {
-
   }
 
   @include min-w(lg) {
-    
+  }
+
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    @include max-w(lg) {
+      padding: 0 16px;
+    }
   }
 }
