@@ -31,6 +31,71 @@
         object-fit: cover;
       }
     }
+
+    // Mobile Swiper - Hidden on desktop
+    .wit-sc_header_venue_swiper {
+      display: none;
+      max-width: 100%;
+      height: 360px;
+      border-radius: 12px;
+      overflow: hidden;
+
+      .swiper-slide {
+        height: 100%;
+        cursor: pointer;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .wit-swiper-button {
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: white;
+          transform: scale(1.1);
+        }
+
+        &.swiper-button-disabled {
+          opacity: 0.3;
+          cursor: not-allowed;
+        }
+
+        img {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .swiper-pagination {
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        .swiper-pagination-bullet {
+          width: 8px;
+          height: 8px;
+          background: rgba(255, 255, 255, 0.5);
+          opacity: 1;
+          margin: 0 4px;
+
+          &.swiper-pagination-bullet-active {
+            background: white;
+          }
+        }
+      }
+    }
   }
 }
 
@@ -94,6 +159,11 @@
             padding: 16px 8px;
             border: 1px solid $baseColor40;
             border-radius: 8px;
+
+            @include max-w(md) {
+              padding: 8px;
+            }
+
             .wit-link {
               font-size: 12px;
               font-weight: 400;
@@ -114,6 +184,7 @@
               position: absolute;
               top: 4px;
               right: 8px;
+
               img {
                 width: 100%;
                 height: 100%;
@@ -131,6 +202,10 @@
           display: grid;
           grid-template-columns: repeat(5, 1fr);
           gap: 8px;
+
+          @include max-w(md) {
+            grid-template-columns: repeat(3, 1fr);
+          }
 
           .wit-amenities_card {
             padding: 8px;
@@ -333,6 +408,14 @@
           }
         }
       }
+      @include max-w(md) {
+        display: none;
+      }
+    }
+
+    @include max-w(md) {
+      display: flex;
+      flex-direction: column;
     }
   }
 }
@@ -349,6 +432,10 @@
 
   &.active {
     display: flex;
+
+    @include max-w(md) {
+      align-items: flex-end;
+    }
   }
 
   .wit-gallery-modal-overlay {
@@ -415,10 +502,12 @@
   .wit-gallery-modal-tabs {
     display: flex;
     padding: 0 16px;
-    // overflow-x: auto;
     display: flex;
     gap: 8px;
     max-width: 694px;
+    @include max-w(md) {
+      overflow-x: auto;
+    }
 
     .wit-gallery-modal-tab {
       padding: 8px 16px;
@@ -453,7 +542,6 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
     padding: 0 16px;
-    overflow-y: auto;
 
     .wit-gallery-modal-item {
       position: relative;
@@ -489,12 +577,27 @@
 }
 
 // Responsive styles
-@media (max-width: 768px) {
+@include max-w(md) {
+  .wit-sc_header_venue {
+    .wit-sc_header_venue_img_wrapper {
+      // Hide desktop grid layout
+      .wit-sc_header_venue_img_wrapper_img {
+        display: none;
+      }
+
+      // Show mobile swiper
+      .wit-sc_header_venue_swiper {
+        display: block;
+        height: 280px;
+      }
+    }
+  }
+
   .wit-gallery-modal {
     .wit-gallery-modal-content {
       width: 95%;
       height: 95%;
-      margin: 2.5% auto;
+      margin: 0 auto;
     }
 
     .wit-gallery-modal-header {
@@ -677,6 +780,9 @@
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 1;
+    @include max-w(md) {
+      display: none;
+    }
 
     &.swiper-button-prev {
       left: 16px;
@@ -693,6 +799,10 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
+
+    @include max-w(md) {
+      display: none;
+    }
 
     .wit-swiper-gallery-thumbnails-swiper {
       .swiper-wrapper {
@@ -729,23 +839,23 @@
 }
 
 // Responsive styles for gallery single modal
-@media (max-width: 768px) {
+@include max-w(md) {
   .wit-gallery-single-modal {
     .wit-gallery-modal-content {
-      width: 95%;
-      max-height: 95vh;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
     }
 
     .wit-gallery-modal-header {
       padding: 16px 20px;
-
       h3 {
         font-size: 18px;
       }
     }
 
     .wit-gallery-modal-body {
-      padding: 20px;
+      padding: 0px;
     }
 
     .wit-gallery-modal-grid {
