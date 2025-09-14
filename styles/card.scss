@@ -599,6 +599,10 @@
     max-height: 100px;
     overflow: hidden;
     border-radius: 8px;
+
+    @include max-w(md) {
+      max-height: 80px;
+    }
   }
 
   .wit-card-content {

@@ -39,6 +39,7 @@
       height: 360px;
       border-radius: 12px;
       overflow: hidden;
+      position: relative;
 
       .swiper-slide {
         height: 100%;
@@ -51,7 +52,43 @@
         }
       }
 
-      .wit-swiper-button {
+      // Photo Counter (Top Right)
+      .wit-header-venue-counter {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 6px 10px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        z-index: 10;
+
+        .wit-header-venue-counter-icon {
+          width: 16px;
+          height: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+
+        .wit-header-venue-counter-number {
+          font-size: 14px;
+          font-weight: 600;
+          color: #333;
+        }
+      }
+
+      // Navigation Buttons
+      .wit-header-venue-nav {
         width: 40px;
         height: 40px;
         background: rgba(255, 255, 255, 0.9);
@@ -61,10 +98,14 @@
         justify-content: center;
         cursor: pointer;
         transition: all 0.3s ease;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
 
         &:hover {
           background: white;
-          transform: scale(1.1);
+          transform: translateY(-50%) scale(1.1);
         }
 
         &.swiper-button-disabled {
@@ -72,16 +113,38 @@
           cursor: not-allowed;
         }
 
-        img {
-          width: 16px;
-          height: 16px;
+        &::after {
+          content: "";
+          width: 12px;
+          height: 12px;
+          border: 2px solid #333;
+          border-bottom: none;
+          border-left: none;
+        }
+
+        &.swiper-button-prev {
+          left: 16px;
+
+          &::after {
+            transform: rotate(-135deg);
+          }
+        }
+
+        &.swiper-button-next {
+          right: 16px;
+
+          &::after {
+            transform: rotate(45deg);
+          }
         }
       }
 
-      .swiper-pagination {
+      // Pagination Dots
+      .wit-header-venue-pagination {
         bottom: 16px;
         left: 50%;
         transform: translateX(-50%);
+        z-index: 10;
 
         .swiper-pagination-bullet {
           width: 8px;
@@ -89,9 +152,11 @@
           background: rgba(255, 255, 255, 0.5);
           opacity: 1;
           margin: 0 4px;
+          transition: all 0.3s ease;
 
           &.swiper-pagination-bullet-active {
             background: white;
+            transform: scale(1.2);
           }
         }
       }
@@ -110,6 +175,10 @@
       flex-direction: column;
       gap: 24px;
       max-width: 770px;
+
+      @include max-w(md) {
+        max-width: 100%;
+      }
 
       .wit-sc_venue_description {
         .wit-sc_inner-header {
@@ -314,6 +383,11 @@
               border-radius: 4px;
               overflow: hidden;
 
+              @include max-w(md) {
+                max-width: 100%;
+                height: 220px;
+              }
+
               &:before {
                 content: "";
                 position: absolute;
@@ -336,6 +410,10 @@
                 bottom: 8px;
                 left: 8px;
                 color: $baseColor10;
+
+                @include max-w(md) {
+                  font-size: 10px;
+                }
               }
             }
           }
@@ -408,12 +486,12 @@
           }
         }
       }
-      @include max-w(md) {
+      @include max-w(lg) {
         display: none;
       }
     }
 
-    @include max-w(md) {
+    @include max-w(lg) {
       display: flex;
       flex-direction: column;
     }
@@ -454,7 +532,7 @@
     width: 100%;
     max-width: 726px;
     height: 100%;
-    max-height: 90vh;
+    // max-height: 90vh;
     margin: auto;
     background: white;
     border-radius: 12px;
@@ -671,7 +749,7 @@
     position: relative;
     width: 90%;
     max-width: 1140px;
-    max-height: 90vh;
+    // max-height: 90vh;
     border-radius: 12px;
     overflow: hidden;
     animation: modalSlideIn 0.3s ease-out;
@@ -703,7 +781,7 @@
   }
 
   .wit-gallery-modal-body {
-    max-height: calc(90vh - 80px);
+    // max-height: calc(90vh - 80px);
     overflow-y: auto;
     max-width: 1140px;
     margin: 0 auto;
@@ -849,6 +927,7 @@
 
     .wit-gallery-modal-header {
       padding: 16px 20px;
+      margin-bottom: 55%;
       h3 {
         font-size: 18px;
       }
@@ -879,6 +958,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @include max-w(md) {
+      align-items: flex-end;
+    }
   }
 
   .wit-vdo-modal-overlay {
@@ -1021,10 +1104,17 @@
     position: relative;
     width: 90%;
     max-width: 1140px;
-    max-height: 90vh;
+    // max-height: 90vh;
     border-radius: 12px;
     overflow: hidden;
     animation: modalSlideIn 0.3s ease-out;
+
+    @include max-w(md) {
+      height: 100%;
+      max-height: 100vh;
+      width: 100%;
+      border-radius: 0;
+    }
   }
 
   .wit-vdo-modal-header {
@@ -1032,6 +1122,14 @@
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 105px;
+
+    @include max-w(md) {
+      margin-bottom: 0;
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      z-index: 10;
+    }
 
     .wit-vdo-modal-close {
       background: none;
@@ -1053,13 +1151,25 @@
   }
 
   .wit-vdo-modal-body {
-    max-height: calc(90vh - 80px);
+    // max-height: calc(90vh - 80px);
     overflow-y: auto;
     max-width: 1140px;
     margin: 0 auto;
 
+    @include max-w(md) {
+      max-height: 100vh;
+      height: 100%;
+      border-radius: 0;
+    }
+
     .wit-vdo-modal-single-swiper {
       max-width: 480px;
+
+      @include max-w(md) {
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+      }
     }
 
     .wit-vdo-card {
@@ -1085,6 +1195,9 @@
           rgba(0, 0, 0, 0.5),
           rgba(0, 0, 0, 0)
         );
+        @include max-w(md) {
+          height: 68px;
+        }
       }
 
       .wit-vdo-card_icon {
@@ -1098,6 +1211,41 @@
         bottom: 8px;
         left: 8px;
         color: $baseColor10;
+        @include max-w(md) {
+          bottom: 32px;
+        }
+      }
+
+      @include max-w(md) {
+        .wit-vdo-card_img {
+          height: 100%;
+
+          img {
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        // Mobile: Show only first video, no swiper
+        .swiper-wrapper {
+          display: block;
+        }
+
+        .swiper-slide {
+          display: block;
+          width: 100%;
+          height: 100%;
+
+          &:not(:first-child) {
+            display: none;
+          }
+        }
+
+        // Hide navigation and pagination on mobile
+        .wit-swiper-button,
+        .wit-swiper-pagination {
+          display: none;
+        }
       }
     }
   }
@@ -1181,6 +1329,10 @@
       right: 16px;
       transform: rotate(180deg);
     }
+
+    @include max-w(md) {
+      display: none;
+    }
   }
 
   .wit-swiper-vdo-thumbnails {
@@ -1189,6 +1341,10 @@
     width: 100%;
     margin-left: auto;
     margin-right: auto;
+
+    @include max-w(md) {
+      display: none;
+    }
 
     .wit-swiper-vdo-thumbnails-swiper {
       .swiper-wrapper {
@@ -1230,7 +1386,7 @@
     .wit-vdo-modal-content {
       width: 95%;
       height: 95%;
-      margin: 2.5% auto;
+      margin: 0 auto;
     }
 
     .wit-vdo-modal-header {

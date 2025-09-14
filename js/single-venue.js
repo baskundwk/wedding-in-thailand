@@ -23,7 +23,10 @@ document.addEventListener("DOMContentLoaded", () => {
       },
 
       breakpoints: {
-        992: {
+        450: {
+          slidesPerView: 2.2,
+        },
+        768: {
           slidesPerView: 2.45,
         },
       },
@@ -46,6 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
         clickable: true,
       },
       breakpoints: {
+        450: {
+          slidesPerView: 2.8,
+        },
+        768: {
+          slidesPerView: 3.1,
+        },
         992: {
           slidesPerView: 3.5,
         },
@@ -69,7 +78,10 @@ document.addEventListener("DOMContentLoaded", () => {
         clickable: true,
       },
       breakpoints: {
-        992: {
+        450: {
+          slidesPerView: 2.2,
+        },
+        768: {
           slidesPerView: 2.74,
         },
       },
@@ -95,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   swiperVdo.forEach((item) => {
     const swiperCard = new Swiper(item, {
-      slidesPerView: 2.7,
+      slidesPerView: 2.25,
       spaceBetween: 16,
       navigation: {
         nextEl: item.parentElement.querySelector(
@@ -104,6 +116,11 @@ document.addEventListener("DOMContentLoaded", () => {
         prevEl: item.parentElement.querySelector(
           ".wit-swiper-button .wit-swiper-button-prev"
         ),
+      },
+      breakpoints: {
+        992: {
+          slidesPerView: 2.7,
+        },
       },
     });
   });
@@ -159,6 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to open modal
   function openGalleryModal() {
     galleryModal.classList.add("active");
+    document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
 
     // Reset to "All" tab and apply staggered layout
@@ -179,6 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Function to close modal
   function closeGalleryModal() {
     galleryModal.classList.remove("active");
+    document.documentElement.style.overflow = "";
     document.body.style.overflow = "";
   }
 
@@ -276,6 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function openGallerySingleModal() {
     console.log("Opening gallery single modal");
     gallerySingleModal.classList.add("active");
+    document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
   }
 
@@ -283,6 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function closeGallerySingleModal() {
     console.log("Closing gallery single modal");
     gallerySingleModal.classList.remove("active");
+    document.documentElement.style.overflow = "";
     document.body.style.overflow = "";
   }
 
@@ -366,6 +387,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function openVdoModal() {
     console.log("Opening video modal");
     vdoModal.classList.add("active");
+    document.documentElement.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
   }
 
@@ -373,6 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function closeVdoModal() {
     console.log("Closing video modal");
     vdoModal.classList.remove("active");
+    document.documentElement.style.overflow = "";
     document.body.style.overflow = "";
   }
 
@@ -402,21 +425,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Header Venue Swiper (Mobile)
-  const headerVenueSwiper = new Swiper(".wit-sc_header_venue_swiper", {
-    slidesPerView: 1,
-    spaceBetween: 16,
-    loop: true,
+  // Header Venue Swiper - Initialize based on screen size
+  let headerVenueSwiper = null;
 
-    navigation: {
-      nextEl: ".wit-sc_header_venue_swiper .swiper-button-next",
-      prevEl: ".wit-sc_header_venue_swiper .swiper-button-prev",
-    },
-    pagination: {
-      el: ".wit-sc_header_venue_swiper .swiper-pagination",
-      clickable: true,
-    },
-  });
+  function initHeaderVenueSwiper() {
+    if (window.innerWidth >= 768) {
+      if (!headerVenueSwiper) {
+        headerVenueSwiper = new Swiper(".wit-sc_header_venue_swiper", {
+          slidesPerView: 1,
+          spaceBetween: 0,
+          loop: true,
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+          },
+          navigation: {
+            nextEl: ".wit-sc_header_venue_swiper .swiper-button-next",
+            prevEl: ".wit-sc_header_venue_swiper .swiper-button-prev",
+          },
+          pagination: {
+            el: ".wit-sc_header_venue_swiper .swiper-pagination",
+            clickable: true,
+          },
+        });
+      }
+    } else {
+      if (headerVenueSwiper) {
+        headerVenueSwiper.destroy(true, true);
+        headerVenueSwiper = null;
+      }
+    }
+  }
+
+  // Initialize on load
+  initHeaderVenueSwiper();
+
+  // Handle resize
+  window.addEventListener("resize", initHeaderVenueSwiper);
 });
 
 // Vdo Single Modal functionality
@@ -431,13 +476,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let vdoSingleSwiper = null;
   let vdoSingleThumbnailsSwiper = null;
 
-  // Open vdo single modal
-  const openVdoSingleModal = (index = 0) => {
-    if (vdoSingleModal) {
-      vdoSingleModal.classList.add("active");
-      document.body.style.overflow = "hidden";
-
-      // Initialize swipers only if not already initialized
+  // Initialize vdo single swipers based on screen size
+  function initVdoSingleSwipers() {
+    if (window.innerWidth >= 768) {
       if (!vdoSingleThumbnailsSwiper) {
         vdoSingleThumbnailsSwiper = new Swiper(
           ".wit-vdo-single-modal .wit-swiper-vdo-thumbnails-swiper",
@@ -471,6 +512,28 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         );
       }
+    } else {
+      // Destroy swipers on mobile
+      if (vdoSingleSwiper) {
+        vdoSingleSwiper.destroy(true, true);
+        vdoSingleSwiper = null;
+      }
+      if (vdoSingleThumbnailsSwiper) {
+        vdoSingleThumbnailsSwiper.destroy(true, true);
+        vdoSingleThumbnailsSwiper = null;
+      }
+    }
+  }
+
+  // Open vdo single modal
+  const openVdoSingleModal = (index = 0) => {
+    if (vdoSingleModal) {
+      vdoSingleModal.classList.add("active");
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+
+      // Initialize swipers based on screen size
+      initVdoSingleSwipers();
 
       // Update swiper size after modal is shown
       setTimeout(() => {
@@ -497,6 +560,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeVdoSingleModal = () => {
     if (vdoSingleModal) {
       vdoSingleModal.classList.remove("active");
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
 
       // Pause all videos when closing modal
@@ -543,4 +607,11 @@ document.addEventListener("DOMContentLoaded", () => {
       openVdoSingleModal();
     });
   }
+
+  // Handle resize for vdo single modal
+  window.addEventListener("resize", () => {
+    if (vdoSingleModal && vdoSingleModal.classList.contains("active")) {
+      initVdoSingleSwipers();
+    }
+  });
 });
