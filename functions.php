@@ -27,11 +27,11 @@ function enqueue_styles() {
 
 function register_theme_menu() {
 	$menus = [
-    'Main Menu' => __( 'Main Menu', '' ),
-		'Subnav Lvl 2' => __( 'Subnav Lvl 2', '' ),
-		'Subnav Lvl 3' => __( 'Subnav Lvl 3', '' ),
-		'Footer' => __( 'Footer', '' ),
-		'Bottom' => __( 'Bottom', '' ),
+    'main-menu' => __( 'Main Menu', '' ),
+		'subnav-2' => __( 'Subnav Lvl 2', '' ),
+		'subnav-3' => __( 'Subnav Lvl 3', '' ),
+		'footer' => __( 'Footer', '' ),
+		'bottom' => __( 'Bottom', '' ),
 	];
 	register_nav_menus( $menus );
 }

@@ -14,6 +14,10 @@
     .wit-sc_header_venue_img_wrapper_img {
       border-radius: 8px;
       overflow: hidden;
+      aspect-ratio: 778/400;
+      object-fit: cover;
+      object-position: center center;
+      position: relative;
 
       &:nth-child(1) {
         grid-row: 1 / 3;
@@ -22,6 +26,7 @@
 
       &:nth-child(2),
       &:nth-child(3) {
+        aspect-ratio: 345/192;
         max-width: 345px;
       }
 
@@ -29,6 +34,16 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+      }
+
+      .wit-sc_header_venue_img_wrapper_img_overlay {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: #00000080;
+        color: white;
+        padding: 4px 8px;
+        border-top-left-radius: 8px;
       }
     }
 

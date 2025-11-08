@@ -18,3 +18,11 @@ body {
     }
   }
 }
+
+main {
+  padding-top: 74px;
+
+  @include min-w(sm) {
+    padding-top: 107px;
+  }
+}

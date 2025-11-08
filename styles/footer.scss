@@ -1,0 +1,89 @@
+@use "./variables.scss" as *;
+
+.wit-footer {
+  background: #FFFFFF;
+  box-shadow: 0 -1px 0 #F0F0F0;
+  position: relative;
+
+  .wit-footer-backtotop {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #017DA9;
+    border-radius: 99px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+  }
+	.wit-footer-upper {
+    .container {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 16px 0;
+    }
+
+		.wit-footer-logo {
+      @include max-w(xl) {
+        order: 0;
+      }
+    }
+		.wit-footer-social {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      justify-content: center;
+
+      @include max-w(xl) {
+        order: 2;
+      }
+      
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+		.wit-footer-menu {
+      @include max-w(xl) {
+        order: 1;
+      }
+			ul {
+        display: flex;
+        gap: 8px 24px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        @include max-w(xl) {
+          flex-direction: column;
+        }
+				a {
+          font-size: 16px;
+          display: block;
+        }
+			}
+		}
+	}
+	.wit-footer-lower {
+    padding: 16px 0;
+    color: #595959;
+    background: #F0F0F0;
+    text-align: center;
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+
+    }
+    a {
+      color: #595959;
+    }
+	}
+}
