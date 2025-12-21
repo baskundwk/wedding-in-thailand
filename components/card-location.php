@@ -1,8 +1,8 @@
-<a href="#" class="wit-location-group_item">
+<a href="<?php the_permalink(); ?>" class="wit-location-group_item">
   <div class="wit-location-group_item_img">
-
-    <img src="./assets/images/pages/archive-venue/location-1.png" alt="">
+    <?php if( has_post_thumbnail() ) {
+        the_post_thumbnail( 'medium' );
+    } ?>
   </div>
-  <p class="text-base font-medium">Bangkok</p>
-
+  <p class="text-base font-medium"><?php the_title() ?></p>
 </a>

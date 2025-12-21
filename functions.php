@@ -230,4 +230,6 @@ add_action('wp_dashboard_setup', function() {
 	);
 });
 
+add_theme_support( 'post-thumbnails' );
+
 ?>

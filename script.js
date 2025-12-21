@@ -5,6 +5,14 @@
     const headerLower = document.querySelector('.wit-header-lower')
     headerLower.classList.toggle('active')
   })
+
+  //Floating Debugger
+  const floatingDebugger = document.querySelector('.floating-debugger')
+  const floatingDebuggerToggle = document.querySelector('.floating-debugger-toggle')
+
+  floatingDebuggerToggle?.addEventListener('click', function() {
+    floatingDebugger.classList.toggle('active')
+  })
 /* Single Venue */
   document.addEventListener("DOMContentLoaded", () => {
     const swiper = document.querySelectorAll(".wit-swiper-card");
