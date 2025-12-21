@@ -1,137 +1,51 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const swiper = document.querySelectorAll(".wit-swiper-card");
-  const swiperCardX = document.querySelectorAll(".wit-swiper-card_x");
-  const swiperCardDate = document.querySelectorAll(".wit-swiper-card_date");
-  const swiperGallery = document.querySelectorAll(".wit-swiper-gallery");
-  const swiperVdo = document.querySelectorAll(".wit-swiper-vdo");
+  // Unified Swiper initialization function
+  const initSwiper = (selector, defaultConfig = {}) => {
+    const swipers = document.querySelectorAll(selector);
+    
+    swipers.forEach((item) => {
+      // Get data attributes
+      const slides = item.dataset.slides || defaultConfig.slidesPerView || 1;
+      const space = parseInt(item.dataset.space) || defaultConfig.spaceBetween || 16;
+      const breakpoints = item.dataset.breakpoints ? JSON.parse(item.dataset.breakpoints) : defaultConfig.breakpoints || {};
+      const nested = item.dataset.nested === 'true' || defaultConfig.nested || false;
+      const loop = item.dataset.loop === 'true';
+      const autoplay = item.dataset.autoplay ? { delay: parseInt(item.dataset.autoplay), disableOnInteraction: false } : false;
+      
+      const config = {
+        slidesPerView: parseFloat(slides),
+        spaceBetween: space,
+        nested: nested,
+        loop: loop,
+        navigation: {
+          nextEl: item.parentElement.querySelector(".wit-swiper-button .wit-swiper-button-next"),
+          prevEl: item.parentElement.querySelector(".wit-swiper-button .wit-swiper-button-prev"),
+        },
+        pagination: {
+          el: item.querySelector(".swiper-pagination") || ".swiper-pagination",
+          clickable: true,
+        },
+        breakpoints: breakpoints,
+        nested: nested,
+      };
+      
+      if (autoplay) {
+        config.autoplay = autoplay;
+      }
+      
+      new Swiper(item, config);
+    });
+  };
 
-  swiper.forEach((item) => {
-    const swiperCard = new Swiper(item, {
-      slidesPerView: 1.2,
-      spaceBetween: 24,
-      navigation: {
-        nextEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-next"
-        ),
-        prevEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-prev"
-        ),
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-
-      breakpoints: {
-        450: {
-          slidesPerView: 2.2,
-        },
-        768: {
-          slidesPerView: 2.45,
-        },
-      },
-    });
-  });
-  swiperCardX.forEach((item) => {
-    const swiperCard = new Swiper(item, {
-      slidesPerView: 1.8,
-      spaceBetween: 8,
-      navigation: {
-        nextEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-next"
-        ),
-        prevEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-prev"
-        ),
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      breakpoints: {
-        450: {
-          slidesPerView: 2.8,
-        },
-        768: {
-          slidesPerView: 3.1,
-        },
-        992: {
-          slidesPerView: 3.5,
-        },
-      },
-    });
-  });
-  swiperCardDate.forEach((item) => {
-    const swiperCard = new Swiper(item, {
-      slidesPerView: 1.8,
-      spaceBetween: 16,
-      navigation: {
-        nextEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-next"
-        ),
-        prevEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-prev"
-        ),
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      breakpoints: {
-        450: {
-          slidesPerView: 2.2,
-        },
-        768: {
-          slidesPerView: 2.74,
-        },
-      },
-    });
-  });
-  swiperGallery.forEach((item) => {
-    const swiperCard = new Swiper(item, {
-      slidesPerView: 1,
-      spaceBetween: 16,
-      navigation: {
-        nextEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-next"
-        ),
-        prevEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-prev"
-        ),
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-    });
-  });
-  swiperVdo.forEach((item) => {
-    const swiperCard = new Swiper(item, {
-      slidesPerView: 2.25,
-      spaceBetween: 16,
-      navigation: {
-        nextEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-next"
-        ),
-        prevEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-prev"
-        ),
-      },
-      breakpoints: {
-        992: {
-          slidesPerView: 2.7,
-        },
-      },
-    });
-  });
-  const swiperCardImg = new Swiper(".wit-swiper-card_img", {
-    nested: true,
+  // Initialize all standard swipers with data attributes
+  initSwiper('.wit-swiper');
+  
+  // Initialize nested image swipers (backwards compatibility)
+  initSwiper('.wit-swiper-card_img', {
     slidesPerView: 1,
-    spaceBetween: 16,
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
+    spaceBetween: 0,
+    breakpoints: {},
+    nested: true,
   });
 
   const viewAll = document.querySelectorAll(".wit-link_view_all");

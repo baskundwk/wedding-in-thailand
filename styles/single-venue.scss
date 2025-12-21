@@ -215,6 +215,10 @@
           transition: all 0.3s;
           opacity: 1;
 
+          p {
+            margin-bottom: 8px;
+          }
+
           &.wit-link_view_all_active {
             max-height: unset;
             -webkit-line-clamp: unset;
@@ -243,6 +247,7 @@
             padding: 16px 8px;
             border: 1px solid $baseColor40;
             border-radius: 8px;
+            min-height: 64px;
 
             @include max-w(md) {
               padding: 8px;
@@ -316,7 +321,7 @@
 
       .wit-sc_gallery {
         .wit-sc_inner {
-          .wit-swiper-gallery {
+          .wit-swiper {
             .wit-gallery-img_wrapper {
               border-radius: 4px;
               overflow: hidden;
@@ -329,35 +334,8 @@
             }
             position: relative;
 
-            .wit-swiper-gallery-pagination {
+            .swiper-pagination {
               position: absolute;
-              bottom: 16px;
-              left: 50%;
-              transform: translateX(-50%);
-              width: 100%;
-              height: 10px;
-              z-index: 1;
-
-              display: flex;
-              justify-content: center;
-              align-items: center;
-
-              .swiper-pagination-bullet {
-                width: 8px;
-                height: 8px;
-                background: $baseColor40;
-                border-radius: 50%;
-                margin: 0 2px;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                display: inline-block;
-
-                &.swiper-pagination-bullet-active {
-                  background: $baseColor400;
-                  width: 10px;
-                  height: 10px;
-                }
-              }
             }
           }
 
@@ -384,7 +362,7 @@
 
       .wit-sc_vdo {
         .wit-sc_inner {
-          .wit-swiper-vdo {
+          .wit-swiper {
             .wit-vdo-card {
               background: rgba(0, 0, 0, 1);
               display: flex;
@@ -462,6 +440,8 @@
 
     .wit-sc_venue_content_inner_right {
       .wit-sc_contact_venue {
+        position: sticky;
+        top: 156px;
         .wit-sc_inner {
           display: flex;
           flex-direction: column;

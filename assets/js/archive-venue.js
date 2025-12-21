@@ -1,58 +1,43 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const swiper = document.querySelectorAll(".wit-swiper-card");
-
-  swiper.forEach((item) => {
-    const swiperCard = new Swiper(item, {
-      slidesPerView: item.classList.contains("wit-swiper-card_col4")
-        ? 1.4
-        : 1.13,
-      spaceBetween: item.classList.contains("wit-swiper-card_col4") ? 16 : 24,
-      navigation: {
-        nextEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-next"
-        ),
-        prevEl: item.parentElement.querySelector(
-          ".wit-swiper-button .wit-swiper-button-prev"
-        ),
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-
-      breakpoints: {
-        450: {
-          slidesPerView: item.classList.contains("wit-swiper-card_col4")
-            ? 2.2
-            : 1.5,
+  // Unified Swiper initialization function
+  const initSwiper = (selector, defaultConfig = {}) => {
+    const swipers = document.querySelectorAll(selector);
+    
+    swipers.forEach((item) => {
+      const slides = item.dataset.slides || defaultConfig.slidesPerView || 1;
+      const space = parseInt(item.dataset.space) || defaultConfig.spaceBetween || 16;
+      const breakpoints = item.dataset.breakpoints ? JSON.parse(item.dataset.breakpoints) : defaultConfig.breakpoints || {};
+      const nested = item.dataset.nested === 'true' || defaultConfig.nested || false;
+      
+      const config = {
+        slidesPerView: parseFloat(slides),
+        spaceBetween: space,
+        nested: nested,
+        navigation: {
+          nextEl: item.parentElement.querySelector(".wit-swiper-button .wit-swiper-button-next"),
+          prevEl: item.parentElement.querySelector(".wit-swiper-button .wit-swiper-button-prev"),
         },
-        767: {
-          slidesPerView: item.classList.contains("wit-swiper-card_col4")
-            ? 3.2
-            : 2.5,
+        pagination: {
+          el: item.querySelector(".swiper-pagination") || ".swiper-pagination",
+          clickable: true,
         },
-        992: {
-          slidesPerView: item.classList.contains("wit-swiper-card_col4")
-            ? 3.65
-            : 3.2,
-        },
-        1200: {
-          slidesPerView: item.classList.contains("wit-swiper-card_col4")
-            ? 4.5
-            : 3.65,
-          spaceBetween: 16,
-        },
-      },
+        breakpoints: breakpoints,
+        nested: nested,
+      };
+      
+      new Swiper(item, config);
     });
-  });
+  };
 
-  const swiperCardImg = new Swiper(".wit-swiper-card_img", {
-    nested: true,
+  // Initialize all standard swipers
+  initSwiper('.wit-swiper');
+  
+  // Initialize nested image swipers (backwards compatibility)
+  initSwiper('.wit-swiper-card_img', {
     slidesPerView: 1,
-    spaceBetween: 16,
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
+    spaceBetween: 0,
+    breakpoints: {},
+    nested: true,
   });
 });
+

@@ -1,6 +1,8 @@
 <div class="wit-card">
     <div class="swiper wit-card-img_swiper wit-swiper-card_img">
-        <div class="wit-tag wit-tag_primary">USP Tag</div>
+        <?php if( get_field('Character')) : ?>
+            <div class="wit-tag wit-tag_primary"><?php echo get_term( get_field('Character')[0] )->name ; ?></div>
+        <?php endif; ?>
         <div class="swiper-wrapper">
             <?php // get image from post thumbnail and first 2 gallery field images ?>
             <div class="swiper-slide wit-card-img_wrapper">
@@ -29,12 +31,15 @@
     <div class="wit-card-content">
         <div class="wit-card-details">
             <h3>
-                <a href="#" class="wit-card-title">
+                <a href="<?php the_permalink(); ?>" class="wit-card-title">
                     <?php the_title(); ?>
                 </a>
             </h3>
 
-            <a href="#" class="wit-link"><?php echo get_post_meta( get_the_ID(), 'location', true ); ?></a>
+            <?php if( get_post_meta( get_the_ID(), 'Destination', true ) ) : ?>
+                <a href="<?php echo get_permalink(get_post_meta( get_the_ID(), 'Destination', true )); ?>" class="wit-link"><?php echo get_the_title(get_post_meta( get_the_ID(), 'Destination', true )); ?></a>
+            <?php endif; ?>
+
             <?php if( get_field('Language') ) : ?>
                 <?php $languages = get_field('Language');?>
                 <p><?php echo implode("/", array_map(function($lang) {
@@ -50,8 +55,9 @@
             <?php endif; ?>
             <?php if( get_post_meta( get_the_ID(), 'Guest', true ) ) : ?>
             <div class="wit-card-guest_capacity">
-                <p>Guest:</p>
-                <b><?php echo number_format(get_post_meta( get_the_ID(), 'Guest', true )); ?></b>
+                <p>Guest:
+                    <b><?php echo number_format(get_post_meta( get_the_ID(), 'Guest', true )); ?></b>
+                </p>
             </div>
             <?php endif; ?>
         </div>

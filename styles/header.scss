@@ -1,5 +1,8 @@
 @use './variables.scss' as *;
 
+.admin-bar .wit-header {
+    top: 32px;
+  }
 .wit-header {
   position: fixed;
   inset: 0 0 auto;

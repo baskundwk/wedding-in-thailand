@@ -61,7 +61,7 @@ $allVenues = new WP_Query(array(
 					</div>
 				</div>
 
-				<div class="swiper wit-swiper-card  ">
+				<div class="swiper wit-swiper" data-slides="1.13" data-space="24" data-breakpoints='{"450":{"slidesPerView":1.5},"767":{"slidesPerView":2.5},"992":{"slidesPerView":3.2},"1200":{"slidesPerView":3.65,"spaceBetween":16}}'>
 					<div class="swiper-wrapper">
 						<?php while ($featuredVenues->have_posts()) : $featuredVenues->the_post(); ?>
 						<div class="swiper-slide">
@@ -133,7 +133,7 @@ $allVenues = new WP_Query(array(
 						<div class="wit-sc_inner-header">
 							<h2>Venues in <?php echo esc_html( $destination_name ); ?></h2>
 							<div class="wit-sc_inner-header_right">
-								<a href="<?php echo esc_url( home_url( '/destinations/' . $destination_slug ) ); ?>" class="wit-link ">View All
+								<a href="<?php echo esc_url( home_url( '/destination/' . $destination_slug ) ); ?>" class="wit-link ">View All
 									<img src="./assets/images/icons/ic-arrow-left.svg" alt="" class="wit-link_icon">
 								</a>
 							</div>
@@ -154,7 +154,7 @@ $allVenues = new WP_Query(array(
 							</div>
 						</div>
 						<div class="flex justify-center">
-							<a href="<?php echo esc_url( home_url( '/destinations/' . $destination_slug ) ); ?>"
+							<a href="<?php echo esc_url( home_url( '/destination/' . $destination_slug ) ); ?>"
 								class="w-full max-w-[343px] flex justify-center items-center bg-[#F0F0F0] py-[13px] text-sm md:text-base font-medium text-[#060606] rounded-[8px]">View
 								more</a>
 						</div>
@@ -184,7 +184,7 @@ $allVenues = new WP_Query(array(
 
 				</div>
 
-				<div class="swiper wit-swiper-card wit-swiper-card_col4 ">
+				<div class="swiper wit-swiper" data-slides="1.4" data-space="16" data-breakpoints='{"450":{"slidesPerView":2.2},"767":{"slidesPerView":3.2},"992":{"slidesPerView":3.65},"1200":{"slidesPerView":4.5,"spaceBetween":16}}'>
 					<div class="swiper-wrapper">
 						<div class="swiper-slide">
 							<?php get_component('/card-venue-2.php'); ?>

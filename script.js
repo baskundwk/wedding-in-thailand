@@ -13,141 +13,75 @@
   floatingDebuggerToggle?.addEventListener('click', function() {
     floatingDebugger.classList.toggle('active')
   })
+
+/* 
+ * Unified Swiper Implementation
+ * =============================
+ * Use the .wit-swiper class with data attributes for all swiper instances:
+ * 
+ * Data Attributes:
+ * - data-slides: Number of slides to show (e.g., "1.2", "2.5", "1")
+ * - data-space: Space between slides in pixels (e.g., "16", "24")
+ * - data-breakpoints: JSON string with responsive breakpoints
+ * - data-nested: "true" for nested swipers
+ * - data-loop: "true" to enable loop mode
+ * - data-autoplay: Milliseconds for autoplay delay (e.g., "3000")
+ * 
+ * Example:
+ * <div class="swiper wit-swiper" 
+ *      data-slides="1.2" 
+ *      data-space="24" 
+ *      data-breakpoints='{"768":{"slidesPerView":2.5},"992":{"slidesPerView":3.2}}'>
+ */
 /* Single Venue */
   document.addEventListener("DOMContentLoaded", () => {
-    const swiper = document.querySelectorAll(".wit-swiper-card");
-    const swiperCardX = document.querySelectorAll(".wit-swiper-card_x");
-    const swiperCardDate = document.querySelectorAll(".wit-swiper-card_date");
-    const swiperGallery = document.querySelectorAll(".wit-swiper-gallery");
-    const swiperVdo = document.querySelectorAll(".wit-swiper-vdo");
+    // Unified Swiper initialization function
+    const initSwiper = (selector, defaultConfig = {}) => {
+      const swipers = document.querySelectorAll(selector);
+      
+      swipers.forEach((item) => {
+        // Get data attributes
+        const slides = item.dataset.slides || defaultConfig.slidesPerView || 1;
+        const space = parseInt(item.dataset.space) || defaultConfig.spaceBetween || 16;
+        const breakpoints = item.dataset.breakpoints ? JSON.parse(item.dataset.breakpoints) : defaultConfig.breakpoints || {};
+        const nested = item.dataset.nested === 'true' || defaultConfig.nested || false;
+        const loop = item.dataset.loop === 'true';
+        const autoplay = item.dataset.autoplay ? { delay: parseInt(item.dataset.autoplay), disableOnInteraction: false } : false;
+        
+        const config = {
+          slidesPerView: parseFloat(slides),
+          spaceBetween: space,
+          nested: nested,
+          loop: loop,
+          navigation: {
+            nextEl: item.parentElement.querySelector(".wit-swiper-button .wit-swiper-button-next"),
+            prevEl: item.parentElement.querySelector(".wit-swiper-button .wit-swiper-button-prev"),
+          },
+          pagination: {
+            el: item.querySelector(".swiper-pagination") || ".swiper-pagination",
+            clickable: true,
+          },
+          breakpoints: breakpoints,
+          nested: nested,
+        };
+        
+        if (autoplay) {
+          config.autoplay = autoplay;
+        }
+        
+        new Swiper(item, config);
+      });
+    };
 
-    swiper.forEach((item) => {
-      const swiperCard = new Swiper(item, {
-        slidesPerView: 1.2,
-        spaceBetween: 24,
-        navigation: {
-          nextEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-next"
-          ),
-          prevEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-prev"
-          ),
-        },
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-
-        breakpoints: {
-          450: {
-            slidesPerView: 2.2,
-          },
-          768: {
-            slidesPerView: 2.45,
-          },
-        },
-      });
-    });
-    swiperCardX.forEach((item) => {
-      const swiperCard = new Swiper(item, {
-        slidesPerView: 1.8,
-        spaceBetween: 8,
-        navigation: {
-          nextEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-next"
-          ),
-          prevEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-prev"
-          ),
-        },
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-        breakpoints: {
-          450: {
-            slidesPerView: 2.8,
-          },
-          768: {
-            slidesPerView: 3.1,
-          },
-          992: {
-            slidesPerView: 3.5,
-          },
-        },
-      });
-    });
-    swiperCardDate.forEach((item) => {
-      const swiperCard = new Swiper(item, {
-        slidesPerView: 1.8,
-        spaceBetween: 16,
-        navigation: {
-          nextEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-next"
-          ),
-          prevEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-prev"
-          ),
-        },
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-        breakpoints: {
-          450: {
-            slidesPerView: 2.2,
-          },
-          768: {
-            slidesPerView: 2.74,
-          },
-        },
-      });
-    });
-    swiperGallery.forEach((item) => {
-      const swiperCard = new Swiper(item, {
-        slidesPerView: 1,
-        spaceBetween: 16,
-        navigation: {
-          nextEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-next"
-          ),
-          prevEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-prev"
-          ),
-        },
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-      });
-    });
-    swiperVdo.forEach((item) => {
-      const swiperCard = new Swiper(item, {
-        slidesPerView: 2.25,
-        spaceBetween: 16,
-        navigation: {
-          nextEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-next"
-          ),
-          prevEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-prev"
-          ),
-        },
-        breakpoints: {
-          992: {
-            slidesPerView: 2.7,
-          },
-        },
-      });
-    });
-    const swiperCardImg = new Swiper(".wit-swiper-card_img", {
-      nested: true,
+    // Initialize all standard swipers with data attributes
+    initSwiper('.wit-swiper');
+    
+    // Initialize nested image swipers (backwards compatibility)
+    initSwiper('.wit-swiper-card_img', {
       slidesPerView: 1,
-      spaceBetween: 16,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
+      spaceBetween: 0,
+      breakpoints: {},
+      nested: true,
     });
 
     const viewAll = document.querySelectorAll(".wit-link_view_all");
@@ -356,6 +290,7 @@
       }
     });
 
+    // Gallery Modal Single Swiper (needs special thumbnails handling)
     const galleryModalSingle = document.querySelectorAll(
       ".wit-gallery-modal-single-swiper"
     );
@@ -371,7 +306,7 @@
       );
 
       // Initialize main swiper with thumbs
-      const swiperCard = new Swiper(item, {
+      new Swiper(item, {
         slidesPerView: 1,
         spaceBetween: 0,
         navigation: {
@@ -447,23 +382,26 @@
     function initHeaderVenueSwiper() {
       if (window.innerWidth >= 768) {
         if (!headerVenueSwiper) {
-          headerVenueSwiper = new Swiper(".wit-sc_header_venue_swiper", {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            loop: true,
-            autoplay: {
-              delay: 3000,
-              disableOnInteraction: false,
-            },
-            navigation: {
-              nextEl: ".wit-sc_header_venue_swiper .swiper-button-next",
-              prevEl: ".wit-sc_header_venue_swiper .swiper-button-prev",
-            },
-            pagination: {
-              el: ".wit-sc_header_venue_swiper .swiper-pagination",
-              clickable: true,
-            },
-          });
+          const headerElement = document.querySelector(".wit-sc_header_venue_swiper");
+          if (headerElement) {
+            headerVenueSwiper = new Swiper(headerElement, {
+              slidesPerView: 1,
+              spaceBetween: 0,
+              loop: true,
+              autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+              },
+              navigation: {
+                nextEl: ".wit-sc_header_venue_swiper .swiper-button-next",
+                prevEl: ".wit-sc_header_venue_swiper .swiper-button-prev",
+              },
+              pagination: {
+                el: ".wit-sc_header_venue_swiper .swiper-pagination",
+                clickable: true,
+              },
+            });
+          }
         }
       } else {
         if (headerVenueSwiper) {
@@ -634,60 +572,45 @@
 
 /* Archive Venue */
   document.addEventListener("DOMContentLoaded", () => {
-    const swiper = document.querySelectorAll(".wit-swiper-card");
-
-    swiper.forEach((item) => {
-      const swiperCard = new Swiper(item, {
-        slidesPerView: item.classList.contains("wit-swiper-card_col4")
-          ? 1.4
-          : 1.13,
-        spaceBetween: item.classList.contains("wit-swiper-card_col4") ? 16 : 24,
-        navigation: {
-          nextEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-next"
-          ),
-          prevEl: item.parentElement.querySelector(
-            ".wit-swiper-button .wit-swiper-button-prev"
-          ),
-        },
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-
-        breakpoints: {
-          450: {
-            slidesPerView: item.classList.contains("wit-swiper-card_col4")
-              ? 2.2
-              : 1.5,
+    // Unified Swiper initialization - reuse the same function
+    const initSwiper = (selector, defaultConfig = {}) => {
+      const swipers = document.querySelectorAll(selector);
+      
+      swipers.forEach((item) => {
+        const slides = item.dataset.slides || defaultConfig.slidesPerView || 1;
+        const space = parseInt(item.dataset.space) || defaultConfig.spaceBetween || 16;
+        const breakpoints = item.dataset.breakpoints ? JSON.parse(item.dataset.breakpoints) : defaultConfig.breakpoints || {};
+        const nested = item.dataset.nested === 'true' || defaultConfig.nested || false;
+        
+        const config = {
+          slidesPerView: parseFloat(slides),
+          spaceBetween: space,
+          nested: nested,
+          navigation: {
+            nextEl: item.parentElement.querySelector(".wit-swiper-button .wit-swiper-button-next"),
+            prevEl: item.parentElement.querySelector(".wit-swiper-button .wit-swiper-button-prev"),
           },
-          767: {
-            slidesPerView: item.classList.contains("wit-swiper-card_col4")
-              ? 3.2
-              : 2.5,
+          pagination: {
+            el: item.querySelector(".swiper-pagination") || ".swiper-pagination",
+            clickable: true,
           },
-          992: {
-            slidesPerView: item.classList.contains("wit-swiper-card_col4")
-              ? 3.65
-              : 3.2,
-          },
-          1200: {
-            slidesPerView: item.classList.contains("wit-swiper-card_col4")
-              ? 4.5
-              : 3.65,
-            spaceBetween: 16,
-          },
-        },
+          breakpoints: breakpoints,
+          nested: nested,
+        };
+        
+        new Swiper(item, config);
       });
-    });
+    };
 
-    const swiperCardImg = new Swiper(".wit-swiper-card_img", {
-      nested: true,
+    // Initialize all standard swipers
+    initSwiper('.wit-swiper');
+    
+    // Initialize nested image swipers (backwards compatibility)
+    initSwiper('.wit-swiper-card_img', {
       slidesPerView: 1,
-      spaceBetween: 16,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
+      spaceBetween: 0,
+      breakpoints: {},
+      nested: true,
     });
   });
+
