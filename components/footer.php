@@ -5,14 +5,14 @@
   <div class="wit-footer-upper">
     <div class="container flex flex-col gap-4">
       <div class="wit-footer-logo">
-        <a href="/"><img src="/assets/images/logo.svg" alt="Wedding in Thailand" title="Go to home page"/></a>
+        <a href="/"><img src="<?php echo get_stylesheet_directory_uri(  ) ?>/assets/images/logo.svg" alt="Wedding in Thailand" title="Go to home page"/></a>
       </div>
       <div class="wit-footer-social">
-        <a href="#"><img src="/assets/images/facebook.png" alt="Facebook" /></a>
-        <a href="#"><img src="/assets/images/line.png" alt="Line" /></a>
-        <a href="#"><img src="/assets/images/instagram.png" alt="Instagram" /></a>
-        <a href="#"><img src="/assets/images/tiktok.png" alt="TikTok" /></a>
-        <a href="#"><img src="/assets/images/lemon8.png" alt="Lemon8" /></a>
+        <a href="#"><img src="<?php echo get_stylesheet_directory_uri(  ) ?>/assets/images/facebook.png" alt="Facebook" /></a>
+        <a href="#"><img src="<?php echo get_stylesheet_directory_uri(  ) ?>/assets/images/line.png" alt="Line" /></a>
+        <a href="#"><img src="<?php echo get_stylesheet_directory_uri(  ) ?>/assets/images/instagram.png" alt="Instagram" /></a>
+        <a href="#"><img src="<?php echo get_stylesheet_directory_uri(  ) ?>/assets/images/tiktok.png" alt="TikTok" /></a>
+        <a href="#"><img src="<?php echo get_stylesheet_directory_uri(  ) ?>/assets/images/lemon8.png" alt="Lemon8" /></a>
       </div>
       <nav class="wit-footer-menu">
         <?php

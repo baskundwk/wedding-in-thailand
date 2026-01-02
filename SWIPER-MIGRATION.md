@@ -166,7 +166,7 @@ Video modal swipers follow the same pattern as gallery modals:
 
 ### Header Venue Swiper
 The header venue swiper has responsive initialization logic (desktop only) and maintains its specific selector:
-- `.wit-sc_header_venue_swiper`
+- `.wit-section-header_venue_swiper`
 
 ## Support
 

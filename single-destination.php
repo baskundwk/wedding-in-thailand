@@ -11,8 +11,8 @@ $allGalleryImages = array();?>
 	<section class="wit-section-header_venue pt-6 lg:pt-8">
 		<div class="container">
 			<div class="wit-section-inner flex flex-col gap-4">
-				<a href="<?php echo get_post_type_archive_link('venue'); ?>" class="wit-link flex items-center gap-1">
-					<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-arrow-left.svg" alt="" class="w-4 h-4"> View other venues
+				<a href="<?php echo get_post_type_archive_link('destination'); ?>" class="wit-link flex items-center gap-1">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-arrow-left.svg" alt="" class="w-4 h-4"> View other destinations
 				</a>
 				<?php
 				if (!empty($fields['Banner'])) :
@@ -57,8 +57,8 @@ $allGalleryImages = array();?>
 	</section>
 	<section class="wit-section-venue_content pb-6 lg:pb-8">
 		<div class="container">
-			<div class="wit-section-venue_content_inner">
-				<div class="wit-section-venue_content_inner_left">
+			<div class="wit-section-venue_content_inner !grid-cols-1">
+				<div class="wit-section-venue_content_inner_left !max-w-full">
 					<section class="wit-section-venue_description">
 						<div class="wit-section-inner flex flex-col gap-1">
 							<div class="wit-section-inner-header">
@@ -86,53 +86,6 @@ $allGalleryImages = array();?>
 						</div>
 					</section>
 
-					<section class="wit-section-venue_details">
-						<div class="wit-section-inner">
-							<?php if (!empty($fields['Destination']->ID)) : ?>
-								<div class="wit-section-venue_details_location">
-									<a href="<?php echo the_permalink($fields['Destination']->ID) ?>" class="wit-link">
-										<?php echo $fields['Destination']->post_title; ?>
-									</a>
-
-									<p>
-										<?php if (!empty($fields['Address'])) : ?>
-											<?php echo $fields['Address']; ?>
-										<?php endif; ?>
-									</p>
-									<div class="wit-section-venue_location_map">
-										<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/pages/single-venue/location-thailand.png" alt="">
-									</div>
-								</div>
-							<?php endif; ?>
-
-							<?php if (!empty($fields['Language'])) : ?>
-								<p class="text-xs font-normal text-[#060606]">Languages Spoken:
-									<?php foreach ($fields['Language'] as $language) {
-										$language_names[] = get_term($language)->name;
-									}
-									echo implode(', ', $language_names); ?>
-								</p>
-							<?php endif; ?>
-
-							<?php if (!empty($fields['PriceStart']) || !empty($fields['Guest'])) : ?>
-								<div class="wit-section-venue_details_price_capacity flex flex-col gap-2">
-									<?php if (!empty($fields['PriceStart'])) : ?>
-										<div class="wit-section-venue_details_price">
-											<h4 class="text-xl font-semibold text-[#060606]"><?php echo number_format($fields['PriceStart']); ?> THB</h4>
-											<p class="text-xs font-normal text-[#595959]">Starting Price</p>
-										</div>
-									<?php endif; ?>
-									<?php if (!empty($fields['Guest'])) : ?>
-										<div class="wit-section-venue_details_capacity">
-											<h4 class="text-xl font-semibold text-[#060606]"><?php echo number_format($fields['Guest']); ?> +</h4>
-											<p class="text-xs font-normal text-[#595959]">Guest Capacity</p>
-										</div>
-									<?php endif; ?>
-								</div>
-							<?php endif; ?>
-						</div>
-					</section>
-
 					<?php if (!empty($fields['Tagline'])) : ?>
 						<section class="wit-section-venue_amenities">
 							<div class="wit-section-inner">
@@ -145,290 +98,53 @@ $allGalleryImages = array();?>
 							</div>
 						</section>
 					<?php endif; ?>
-
-					<?php if (!empty($fields['Package'])) : ?>
-					<section class="wit-section-venue_packages">
+          
+          <?php 
+          $venuesInDestination = new WP_Query( array(
+            'post_type' => 'venue',
+            'posts_per_page' => 16,
+            'meta_query' => array(
+							array(
+								'key'     => 'Destination',
+								'value'   => '"' . get_the_ID() . '"',
+								'compare' => 'LIKE',
+							),
+            ),
+          ) );
+          if ( $venuesInDestination->have_posts() ) : ?>
+					<section class="wit-section-featured_venue">
 						<div class="wit-section-inner">
 							<div class="wit-section-inner-header">
-								<h2>Package</h2>
-							</div>
-							<?php if (!empty($fields['AllPackageBrochure'])) : ?>
-								<a href="<?php echo esc_url($fields['AllPackageBrochure']['url']); ?>"
-									class="wit-link text-xs text-[#017DA9] font-normal flex items-center justify-end gap-1">
-									Download All Package Brochure <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-file_download.svg" alt=""></a>
-							<?php endif; ?>
-
-							<?php if (!empty($fields['Package'])) : ?>
-
-								<div class="wit-section-venue_packages_list">
-									<div class="wit-accordion">
-										<?php $packageIndex = 1;
-										foreach ($fields['Package'] as $package) : ?>
-											<div class="wit-accordion-item">
-												<div class="wit-accordion-header" data-accordion-target="accordion-<?php echo $packageIndex; ?>">
-													<h3>
-														<?php echo $package['PackageName']; ?>
-														<?php if ($package['PackageRecommended']) : ?>
-															<span class="wit-badge">Recommended</span>
-														<?php endif; ?>
-													</h3>
-													<div class="wit-accordion-header_icon">
-														<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-chevron_down.svg" alt="">
-													</div>
-												</div>
-												<div class="wit-accordion-content" data-accordion-content="accordion-<?php echo $packageIndex; ?>">
-													<div class="wit-accordion-content_header">
-														<p><strong><?php echo $package['PackageDescription']; ?></strong> </p>
-														<h4><?php echo number_format($package['PackagePrice']); ?> <span>THB</span></h4>
-													</div>
-													<?php if ($package['PackageFeature']) : ?>
-														<div class="wit-accordion-content_wrapper">
-															<p class="text-xs font-normal text-[#595959]">What's included:</p>
-															<div class="wit-accordion-content_lists">
-																<?php foreach ($package['PackageFeature'] as $feature) : ?>
-																	<div class="wit-accordion-content_item">
-																		<div class="wit-accordion-content_item_title"><?php echo $feature['FeatureGroupName']; ?></div>
-																		<?php if ($feature['FeatureGroupList']) : ?>
-																			<div class="wit-accordion-content_item_group">
-																				<?php foreach ($feature['FeatureGroupList'] as $featureItem) : ?>
-																					<div class="flex items-start gap-1">
-																						<div>
-																							<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-check.svg"
-																								alt="">
-																						</div>
-																						<p class="text-xs font-normal text-[#060606]">
-																							<?php echo $featureItem['FeatureDescription']; ?>
-																						</p>
-																					</div>
-																				<?php endforeach; ?>
-																			</div>
-																		<?php endif; ?>
-																	</div>
-																<?php endforeach; ?>
-															</div>
-														</div>
-													<?php endif; ?>
-													<p class="text-[10px] text-[#595959] font-normal">Note:
-														<?php echo $package['PackageRemark']; ?>
-													</p>
-													<?php if ($package['PackageBrochure']) : ?>
-
-														<div class="flex justify-end">
-															<a href="<?php echo esc_url($package['PackageBrochure']['url']); ?>"
-																class="wit-btn wit-btn_secondary w-full max-w-[343px]">Download
-																Brochure
-																(.PDF)</a>
-														</div>
-													<?php endif; ?>
-
-
-												</div>
-
-											</div>
-										<?php $packageIndex++;
-										endforeach; ?>
-									</div>
-								</div>
-							<?php endif; ?>
-						</div>
-					</section>
-					<?php endif; ?>
-
-					<!-- section gallery -->
-					<?php
-						if (!empty($fields['Album'])) :
-              foreach ($fields['Album'] as $album) {
-                foreach ($album['AlbumImage'] as $image) {
-                  $allGalleryImages[] = $image;
-                }
-              }
-            endif;
-						if (!empty($fields['Album']) && !empty($allGalleryImages)) : ?>
-						<section class="wit-section-gallery">
-							<div class="wit-section-inner">
-								<div class="wit-section-inner-header">
-									<h2>Gallery</h2>
-									<div class="wit-section-inner-header_right">
-										<div class="wit-swiper-button">
-											<div class="swiper-button-prev wit-swiper-button-prev"></div>
-											<div class="swiper-button-next wit-swiper-button-next"></div>
-										</div>
-
-										<a href="#" class="wit-link wit-gallery-modal-trigger">View All
-											<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-arrow-left.svg" alt=""
-												class="wit-link_icon">
-										</a>
-									</div>
-								</div>
-								<div class="swiper wit-swiper wit-gallery-modal-single" data-slides="1" data-space="16">
-									<div class="swiper-wrapper">
-										<?php foreach ($allGalleryImages as $image) : ?>
-											<div class="swiper-slide">
-												<div class="wit-gallery-img_wrapper">
-													<img src="<?php echo wp_get_attachment_url($image['ID']); ?>" alt="">
-												</div>
-											</div>
-										<?php endforeach; ?>
-									</div>
-									<div class="swiper-pagination wit-swiper-gallery-pagination"></div>
-									<div class="wit-gallery-total_img">
-										<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-Image_01.svg" alt="">
-										<span id="wit-gallery-total_number"><?php echo count($allGalleryImages); ?></span>
-									</div>
-								</div>
-							</div>
-						</section>
-					<?php endif; ?>
-
-					<?php $relatedVideos = new WP_Query([
-						'post_type' => 'video',
-						'posts_per_page' => -1,
-						'meta_query' => [
-							[
-								'key' => 'RelatedVenue',
-								'value' => get_the_ID(),
-								'compare' => 'LIKE'
-							]
-						]
-					]);
-
-					if ($relatedVideos->have_posts()) : ?>
-					<section class="wit-section-vdo">
-						<div class="wit-section-inner">
-							<div class="wit-section-inner-header">
-								<h2>Video/Reels</h2>
+								<h2>Venues in <?php echo get_the_title(); ?></h2>
 								<div class="wit-section-inner-header_right">
 									<div class="wit-swiper-button">
 										<div class="swiper-button-prev wit-swiper-button-prev"></div>
 										<div class="swiper-button-next wit-swiper-button-next"></div>
 									</div>
-
-									<a target="_blank" href="<?php echo get_post_type_archive_link('video').'?venue='.get_the_ID(); ?>" class="wit-link <?php /* wit-vdo-modal-trigger */ ?>">View All
-										<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-arrow-left.svg" alt=""
-											class="wit-link_icon">
-									</a>
 								</div>
 							</div>
-							<div class="swiper wit-swiper" data-slides="2.25" data-space="16" data-breakpoints='{"992":{"slidesPerView":2.7}}'>
+
+							<div class="swiper wit-swiper" data-slides="1.2" data-space="16" data-breakpoints='{"450":{"slidesPerView":3.2},"768":{"slidesPerView":3.8}, "1024":{"slidesPerView":4.5}}'>
 								<div class="swiper-wrapper">
-									<?php $relatedVideosIndex = 0;
-									while ($relatedVideos->have_posts()) : $relatedVideos->the_post(); ?>
-									<div class="swiper-slide <?php /* wit-vdo-modal-item */ ?>" data-index="<?php echo $relatedVideosIndex; ?>">
-										<?php get_component('/card-video.php'); ?>
-									</div>
-									<?php $relatedVideosIndex++; endwhile; wp_reset_postdata(); ?>
-								</div>
-								<div class="swiper-pagination wit-swiper-gallery-pagination"></div>
-
-							</div>
-						</div>
-					</section>
-					<?php wp_reset_postdata();
-					endif; ?>
-
-					<?php if (!empty($fields['Presentation'])) : ?>
-						<?php foreach ($fields['Presentation'] as $presentation) : ?>
-							<?php if ($presentation['PresentationImage']) : ?>
-								<section class="wit-section-venue_presentation">
-									<div class="wit-section-inner">
-										<div class="wit-section-inner-header">
-											<h2><?php echo $presentation['PresentationName']; ?></h2>
-										</div>
-										<?php if ($presentation['PresentationDescription']) : ?>
-											<div class="!mb-4"><?php echo $presentation['PresentationDescription']; ?></div>
-										<?php endif; ?>
-										<div class="overflow-hidden rounded-lg">
-											<img src="<?php echo esc_url($presentation['PresentationImage']['url']); ?>" alt="<?php echo esc_attr($presentation['PresentationImage']['alt']); ?>">
-										</div>
-									</div>
-								</section>
-							<?php endif; ?>
-						<?php endforeach; ?>
-					<?php endif; ?>
-
-					<?php $reviewArg = [
-						'post_type' => 'review',
-						'posts_per_page' => -1,
-						'meta_query' => [
-							[
-								'key' => 'ReviewRelated',
-								'value' => get_the_ID(),
-								'compare' => '='
-							]
-						]
-					];
-					$reviewQuery = new WP_Query($reviewArg);
-					if($reviewQuery->have_posts()) : ?>
-					<section class="wit-section-wedding_stories">
-						<div class="wit-section-inner">
-							<div class="wit-section-inner-header">
-
-								<h2>Real Wedding Stories</h2>
-								<div class="wit-section-inner-header_right">
-
-									<div class="wit-swiper-button">
-
-										<div class="swiper-button-prev wit-swiper-button-prev"></div>
-										<div class="swiper-button-next wit-swiper-button-next"></div>
-									</div>
-								</div>
-
-
-							</div>
-
-							<div class="swiper wit-swiper" data-slides="1.8" data-space="8" data-breakpoints='{"450":{"slidesPerView":2.8},"768":{"slidesPerView":3.1},"992":{"slidesPerView":3.5}}'>
-								<div class="swiper-wrapper">
-									<?php while($reviewQuery->have_posts()) : $reviewQuery->the_post(); ?>
+                  <?php while($venuesInDestination->have_posts()) : $venuesInDestination->the_post(); ?>
 									<div class="swiper-slide">
-										<?php get_component('/card-review.php'); ?>
+										<?php get_component('/card-venue-1.php'); ?>
 									</div>
-									<?php endwhile; ?>
+                  <?php endwhile; ?>
 								</div>
 								<div class="swiper-pagination wit-swiper-card-pagination"></div>
 							</div>
 						</div>
 					</section>
-					<?php wp_reset_postdata();
-					endif; ?>
-
-					<?php if ( !empty($fields['FAQs'])) : ?>
-					<section class="wit-section-venue_faq">
-						<div class="wit-section-inner">
-							<div class="wit-section-inner-header">
-								<h2>FAQ</h2>
-							</div>
-
-							<div class="wit-section-venue_faq_list">
-								<div class="wit-accordion">
-									<?php $faqIndex = 1;
-									foreach($fields['FAQs'] as $faq) : ?>
-									<div class="wit-accordion-item">
-										<div class="wit-accordion-header" data-accordion-target="accordion-faq-1">
-											<h3><?php echo $faq['FAQTitle']; ?></h3>
-											<div class="wit-accordion-header_icon">
-												<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-chevron_down.svg" alt="">
-											</div>
-										</div>
-										<div class="wit-accordion-content" data-accordion-content="accordion-faq-1">
-											<div class="flex flex-col gap-2">
-												<?php echo $faq['FAQ_Content']; ?>
-											</div>
-										</div>
-									</div>
-									<?php $faqIndex++;
-									endforeach; ?>
-								</div>
-							</div>
-						</div>
-					</section>
-					<?php endif; ?>
+          <?php wp_reset_postdata();
+          endif; ?>
 
 					<?php $post_query = new WP_Query( array(
 						'post_type' => 'post',
 						'posts_per_page' => 16,
 						'meta_query' => array(
 							array(
-								'key'     => 'RelatedVenue',
+								'key'     => 'RelatedDestination',
 								'value'   => '"' . get_the_ID() . '"',
 								'compare' => 'LIKE',
 							),
@@ -447,7 +163,7 @@ $allGalleryImages = array();?>
 								</div>
 							</div>
 
-							<div class="swiper wit-swiper" data-slides="1.8" data-space="16" data-breakpoints='{"450":{"slidesPerView":2.2},"768":{"slidesPerView":2.74}}'>
+							<div class="swiper wit-swiper" data-slides="1.8" data-space="16" data-breakpoints='{"450":{"slidesPerView":2.2},"768":{"slidesPerView":3}, "1024":{"slidesPerView":4}}'>
 								<div class="swiper-wrapper">
 									<?php while($post_query->have_posts()) : $post_query->the_post(); ?>
 									<div class="swiper-slide">
@@ -463,58 +179,40 @@ $allGalleryImages = array();?>
 					<?php wp_reset_postdata();
 					endif; ?>
 
-
-					<section class="wit-section-featured_venue">
-						<div class="wit-section-inner">
-							<div class="wit-section-inner-header">
-
-								<h2>Featured Venue</h2>
-								<div class="wit-section-inner-header_right">
-
-									<div class="wit-swiper-button">
-
-										<div class="swiper-button-prev wit-swiper-button-prev"></div>
-										<div class="swiper-button-next wit-swiper-button-next"></div>
-									</div>
-								</div>
-
-
-							</div>
-
-							<div class="swiper wit-swiper" data-slides="1.2" data-space="24" data-breakpoints='{"450":{"slidesPerView":2.2},"768":{"slidesPerView":2.45}}'>
-								<div class="swiper-wrapper">
-									<div class="swiper-slide">
-										<?php get_component('/card-venue-1.php'); ?>
-									</div>
-									<div class="swiper-slide">
-										<?php get_component('/card-venue-1.php'); ?>
-									</div>
-									<div class="swiper-slide">
-										<?php get_component('/card-venue-1.php'); ?>
-									</div>
-									<div class="swiper-slide">
-										<?php get_component('/card-venue-1.php'); ?>
-									</div>
-									<div class="swiper-slide">
-										<?php get_component('/card-venue-1.php'); ?>
-									</div>
-								</div>
-								<div class="swiper-pagination wit-swiper-card-pagination"></div>
-							</div>
-						</div>
-
-					</section>
-				</div>
-				<div class="wit-section-venue_content_inner_right">
-					<div class="wit-section-contact_venue">
-						<div class="wit-section-inner">
-							<a href="" class="wit-btn wit-btn_primary">Inquiry</a>
-							<a href="" class="wit-btn wit-btn_border">Estimate Your Budget</a>
-							<a href=""
-								class="wit-btn wit-btn_secondary flex items-center justify-center gap-2.5">Contact
-								Admin <img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-line.svg" alt=""></a>
-						</div>
-					</div>
+          <?php $relatedDestinations = get_field('RelatedDestination');
+          if(!empty($relatedDestinations)) {
+            $relatedDestinationIds = array_map(function($post) {
+              return is_object($post) ? $post->ID : $post;
+            }, $relatedDestinations);
+          } else {
+            $relatedDestinationIds = array();
+          }
+          $relatedDestinationsQuery = new WP_Query( array(
+            'post_type' => 'destination',
+            'post__in' => $relatedDestinationIds,
+            'posts_per_page' => -1,
+            'orderby' => 'post__in',
+          ) );
+          if($relatedDestinationsQuery->have_posts()) : ?>
+          <section class="wit-section-related_destinations">
+            <div class="container">
+              <div class="wit-section-inner">
+                <div class="wit-section-inner-header">
+                  <h2 class="headline">Related Destinations</h2>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                  <?php while($relatedDestinationsQuery->have_posts()) : $relatedDestinationsQuery->the_post();
+                  ?>
+                  <div>
+                    <?php get_component('/card-destination-2.php'); ?>
+                  </div>
+                  <?php endwhile; 
+                  wp_reset_postdata(); ?>
+                </div>
+              </div>
+            </div>
+          </section>
+          <?php endif; ?>
 				</div>
 			</div>
 		</div>

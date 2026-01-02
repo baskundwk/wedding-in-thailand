@@ -1,0 +1,5 @@
+.wit-tab-content {
+  &:not(.wit-tab-content_active) {
+    display: none;
+  }
+}

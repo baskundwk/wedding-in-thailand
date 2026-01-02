@@ -1,5 +1,5 @@
-<a href="<?php the_permalink(); ?>" class="wit-location-group_item">
-  <div class="wit-location-group_item_img">
+<a href="<?php the_permalink(); ?>" class="wit-card-destination-1">
+  <div class="wit-card-destination-img">
     <?php if( has_post_thumbnail() ) {
         the_post_thumbnail( 'medium' );
     } ?>

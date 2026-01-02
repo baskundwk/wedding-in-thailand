@@ -1,0 +1,16 @@
+@use "./variables.scss" as *;
+
+.wit-tag {
+  padding: 4px 8px;
+  font-size: 10px;
+  font-weight: 400;
+
+  background: $baseColor30;
+  border-radius: 4px;
+  width: fit-content;
+
+  &.wit-tag_primary {
+    background: $baseColor10;
+    color: $primaryColor;
+  }
+}

@@ -345,7 +345,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function initHeaderVenueSwiper() {
     if (window.innerWidth >= 768) {
       if (!headerVenueSwiper) {
-        headerVenueSwiper = new Swiper(".wit-sc_header_venue_swiper", {
+        headerVenueSwiper = new Swiper(".wit-section-header_venue_swiper", {
           slidesPerView: 1,
           spaceBetween: 0,
           loop: true,
@@ -354,11 +354,11 @@ document.addEventListener("DOMContentLoaded", () => {
             disableOnInteraction: false,
           },
           navigation: {
-            nextEl: ".wit-sc_header_venue_swiper .swiper-button-next",
-            prevEl: ".wit-sc_header_venue_swiper .swiper-button-prev",
+            nextEl: ".wit-section-header_venue_swiper .swiper-button-next",
+            prevEl: ".wit-section-header_venue_swiper .swiper-button-prev",
           },
           pagination: {
-            el: ".wit-sc_header_venue_swiper .swiper-pagination",
+            el: ".wit-section-header_venue_swiper .swiper-pagination",
             clickable: true,
           },
         });

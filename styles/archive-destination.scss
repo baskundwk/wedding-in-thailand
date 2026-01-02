@@ -1,0 +1,37 @@
+.wit-destination-banner-swiper {
+  border-radius: 12px;
+  overflow: hidden;
+  .swiper-slide {
+    position: relative;
+    
+    img {
+      aspect-ratio: 1140 / 350;
+    }
+
+    .banner-text {
+      width: 100%;
+      position: absolute;
+      inset: auto 0 0;
+      margin: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+      justify-content: flex-end;
+      background: linear-gradient(transparent, rgba(0,0,0,1));
+
+      .title {
+        color: #FFFFFF;
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .desc {
+        color: #FFFFFF;
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+  }
+}

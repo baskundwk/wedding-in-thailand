@@ -1,5 +1,5 @@
 <div class="wit-card-short">
-    <div class="swiper wit-card-img_swiper wit-swiper-card_img">
+    <a href="<?php the_permalink(  ) ?>" class="swiper wit-card-img_swiper wit-swiper-card_img">
         <?php if( get_field('Character')) : ?>
             <div class="wit-tag wit-tag_primary"><?php echo get_term( get_field('Character')[0] )->name ; ?></div>
         <?php endif; ?>
@@ -12,12 +12,20 @@
                 }
                 ?>
             </div>
-            <?php if( get_field('Gallery') ) :
-                $gallery = get_field('Gallery');
+            <?php if( get_field('Album') ) :
+                $albums = get_field('Album');
+                $allGalleryImages = array();
+                foreach( $albums as $album ) {
+                    if( isset($album['AlbumImage']) ) {
+                        foreach( $album['AlbumImage'] as $image ) {
+                            $allGalleryImages[] = $image;
+                        }
+                    }
+                }
                 for( $i = 0; $i < 2; $i++ ) {
-                    if( isset($gallery[$i]) ) : ?>
+                    if( isset($allGalleryImages[$i]) ) : ?>
                         <div class="swiper-slide wit-card-img_wrapper">
-                            <?php echo wp_get_attachment_image( $gallery[$i]['ID'], 'full' ); ?>
+                            <?php echo wp_get_attachment_image( $allGalleryImages[$i]['ID'], 'full' ); ?>
                         </div>
                     <?php endif;
                 }
@@ -26,7 +34,7 @@
             ?>
         </div>
         <div class="swiper-pagination"></div>
-    </div>
+    </a>
 
 
 

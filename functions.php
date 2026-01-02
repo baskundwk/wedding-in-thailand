@@ -37,63 +37,6 @@ function register_theme_menu() {
 }
 add_action( 'init', 'register_theme_menu' );
 
-add_action('init', 'setUserCountryCode');
-
-function setUserCountryCode() {
-		if(isset($_COOKIE['cityguide-countryCode'])) {
-			return sanitize_text_field($_COOKIE['cityguide-countryCode']);
-		} else {
-			$ip;
-			// Prefer HTTP_X_FORWARDED_FOR if available (e.g., behind a proxy)
-			if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-					$ip = $_SERVER['HTTP_CLIENT_IP'];
-			} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-					// Might contain multiple IPs - take the first one
-					$ipList = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-					$ip = trim($ipList[0]);
-			} else {
-					$ip = $_SERVER['REMOTE_ADDR'];
-			}
-	
-			// Skip calling the API if IP is localhost
-			if ($ip === '127.0.0.1' || $ip === '::1') {
-					$countryCode = 'th';
-			} else {
-					$countryCode = strtolower(@file_get_contents("https://ipapi.co/{$ip}/country/"));
-					if ($countryCode === false) {
-							$countryCode = 'th';
-					}
-			}
-
-			setcookie('cityguide-countryCode', htmlspecialchars(trim($countryCode)), time() + (86400 * 30), '/');
-	
-			return htmlspecialchars(trim($countryCode));
-		}
-}
-function getUserCountryCode() {
-		if(isset($_COOKIE['cityguide-countryCode'])) {
-			//print_r($_COOKIE['cityguide-countryCode']);
-			return $_COOKIE['cityguide-countryCode'];
-		} else {
-			return 'th';
-		}
-}
-
-
-function set_query_defaults( $query ) {
-	if ( !is_admin() && $query->is_main_query() && $query->is_archive() ) {
-		$query->set( 'posts_per_page', 26 );
-		$query->set( 'paged', get_query_var('paged') ? get_query_var('paged') : 1 );
-		$query->set( 'meta_query', [
-			'clause_priority' => [
-				'key' => 'feature_enabled',
-				'type' => 'NUMERIC'
-			]
-		]);
-	}
-}
-add_action( 'pre_get_posts', 'set_query_defaults' );
-
 function handle_member_email_submission() {
 	if (isset($_POST['email']) && is_email($_POST['email'])) {
 			$email = sanitize_email($_POST['email']);
@@ -231,5 +174,66 @@ add_action('wp_dashboard_setup', function() {
 });
 
 add_theme_support( 'post-thumbnails' );
+
+function wp_estimated_reading_time( $post_id = null, $wpm = 200 ) {
+    $post_id = $post_id ?: get_the_ID();
+
+    $content = get_post_field( 'post_content', $post_id );
+    if ( empty( $content ) ) {
+        return '';
+    }
+
+    // Strip shortcodes & HTML
+    $text = wp_strip_all_tags( strip_shortcodes( $content ) );
+
+    // Word count (multibyte-safe for Thai/Asian languages is NOT possible with word count)
+    $word_count = str_word_count( $text );
+
+    $minutes = max( 1, ceil( $word_count / $wpm ) );
+
+    return $minutes;
+}
+
+/**
+ * Custom pagination function with WP-PageNavi support and fallback
+ * 
+ * Usage: custom_pagination();
+ * 
+ * This function checks if WP-PageNavi plugin is active and uses it.
+ * If not available, falls back to WordPress default pagination.
+ */
+function custom_pagination( $query = null ) {
+    // Use global query if no specific query is provided
+    if ( $query === null ) {
+        global $wp_query;
+        $query = $wp_query;
+    }
+    
+    // Check if WP-PageNavi plugin is active
+    if ( function_exists( 'wp_pagenavi' ) ) {
+        wp_pagenavi( array( 'query' => $query ) );
+    } else {
+        // Fallback to default WordPress pagination
+        $big = 999999999; // Need an unlikely integer
+        
+        $paginate_links = paginate_links( array(
+            'base'      => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
+            'format'    => '?paged=%#%',
+            'current'   => max( 1, get_query_var( 'paged' ) ),
+            'total'     => $query->max_num_pages,
+            'type'      => 'list',
+            'prev_text' => __( '&laquo; Previous' ),
+            'next_text' => __( 'Next &raquo;' ),
+            'mid_size'  => 2,
+            'end_size'  => 1,
+        ) );
+        
+        if ( $paginate_links ) {
+            echo '<nav class="pagination-wrapper" aria-label="Pagination">';
+            echo $paginate_links;
+            echo '</nav>';
+        }
+    }
+}
 
 ?>

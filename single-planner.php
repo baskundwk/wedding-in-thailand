@@ -11,8 +11,8 @@ $allGalleryImages = array();?>
 	<section class="wit-section-header_venue pt-6 lg:pt-8">
 		<div class="container">
 			<div class="wit-section-inner flex flex-col gap-4">
-				<a href="<?php echo get_post_type_archive_link('venue'); ?>" class="wit-link flex items-center gap-1">
-					<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-arrow-left.svg" alt="" class="w-4 h-4"> View other venues
+				<a href="<?php echo get_post_type_archive_link('planner'); ?>" class="wit-link flex items-center gap-1">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-arrow-left.svg" alt="" class="w-4 h-4"> View other planners
 				</a>
 				<?php
 				if (!empty($fields['Banner'])) :
@@ -236,7 +236,7 @@ $allGalleryImages = array();?>
 
 					<!-- section gallery -->
 					<?php
-						if (!empty($fields['Album'])) :
+            if (!empty($fields['Album'])) :
               foreach ($fields['Album'] as $album) {
                 foreach ($album['AlbumImage'] as $image) {
                   $allGalleryImages[] = $image;
@@ -285,7 +285,7 @@ $allGalleryImages = array();?>
 						'posts_per_page' => -1,
 						'meta_query' => [
 							[
-								'key' => 'RelatedVenue',
+								'key' => 'RelatedPlanner',
 								'value' => get_the_ID(),
 								'compare' => 'LIKE'
 							]
@@ -303,7 +303,7 @@ $allGalleryImages = array();?>
 										<div class="swiper-button-next wit-swiper-button-next"></div>
 									</div>
 
-									<a target="_blank" href="<?php echo get_post_type_archive_link('video').'?venue='.get_the_ID(); ?>" class="wit-link <?php /* wit-vdo-modal-trigger */ ?>">View All
+									<a target="_blank" href="<?php echo get_post_type_archive_link('video').'?planner='.get_the_ID(); ?>" class="wit-link <?php /* wit-vdo-modal-trigger */ ?>">View All
 										<img src="<?php echo get_stylesheet_directory_uri(); ?>/assets/images/icons/ic-arrow-left.svg" alt=""
 											class="wit-link_icon">
 									</a>
@@ -428,7 +428,7 @@ $allGalleryImages = array();?>
 						'posts_per_page' => 16,
 						'meta_query' => array(
 							array(
-								'key'     => 'RelatedVenue',
+								'key'     => 'RelatedPlanner',
 								'value'   => '"' . get_the_ID() . '"',
 								'compare' => 'LIKE',
 							),
@@ -468,7 +468,7 @@ $allGalleryImages = array();?>
 						<div class="wit-section-inner">
 							<div class="wit-section-inner-header">
 
-								<h2>Featured Venue</h2>
+								<h2>Featured Planner</h2>
 								<div class="wit-section-inner-header_right">
 
 									<div class="wit-swiper-button">

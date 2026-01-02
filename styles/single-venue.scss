@@ -1,17 +1,17 @@
 @use "./variables.scss" as *;
 
-.wit-sc_header_venue {
+.wit-section-header_venue {
   .wit-link {
     font-size: 12px;
     font-weight: 400;
   }
 
-  .wit-sc_header_venue_img_wrapper {
+  .wit-section-header_venue_img_wrapper {
     display: grid;
     grid-template-columns: auto auto;
     gap: 16px;
 
-    .wit-sc_header_venue_img_wrapper_img {
+    .wit-section-header_venue_img_wrapper_img {
       border-radius: 8px;
       overflow: hidden;
       aspect-ratio: 778/400;
@@ -36,7 +36,7 @@
         object-fit: cover;
       }
 
-      .wit-sc_header_venue_img_wrapper_img_overlay {
+      .wit-section-header_venue_img_wrapper_img_overlay {
         position: absolute;
         bottom: 0;
         right: 0;
@@ -48,7 +48,7 @@
     }
 
     // Mobile Swiper - Hidden on desktop
-    .wit-sc_header_venue_swiper {
+    .wit-section-header_venue_swiper {
       display: none;
       max-width: 100%;
       height: 360px;
@@ -179,13 +179,13 @@
   }
 }
 
-.wit-sc_venue_content {
-  .wit-sc_venue_content_inner {
+.wit-section-venue_content {
+  .wit-section-venue_content_inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
 
-    .wit-sc_venue_content_inner_left {
+    .wit-section-venue_content_inner_left {
       display: flex;
       flex-direction: column;
       gap: 24px;
@@ -195,8 +195,8 @@
         max-width: 100%;
       }
 
-      .wit-sc_venue_description {
-        .wit-sc_inner-header {
+      .wit-section-venue_description {
+        .wit-section-inner-header {
           margin-bottom: 0;
         }
 
@@ -233,13 +233,13 @@
         }
       }
 
-      .wit-sc_venue_details {
-        .wit-sc_inner {
+      .wit-section-venue_details {
+        .wit-section-inner {
           display: flex;
           flex-direction: column;
           gap: 16px;
 
-          .wit-sc_venue_details_location {
+          .wit-section-venue_details_location {
             display: flex;
             flex-direction: column;
             gap: 4px;
@@ -268,7 +268,7 @@
               line-height: 1;
             }
 
-            .wit-sc_venue_location_map {
+            .wit-section-venue_location_map {
               max-width: 54px;
               position: absolute;
               top: 4px;
@@ -284,10 +284,10 @@
         }
       }
 
-      .wit-sc_venue_amenities {
+      .wit-section-venue_amenities {
         padding-bottom: 24px;
         border-bottom: 1px solid $baseColor40;
-        .wit-sc_inner {
+        .wit-section-inner {
           display: grid;
           grid-template-columns: repeat(5, 1fr);
           gap: 8px;
@@ -307,20 +307,20 @@
         }
       }
 
-      .wit-sc_venue_packages_list {
+      .wit-section-venue_packages_list {
         margin-top: 16px;
       }
 
-      .wit-sc_wedding_stories {
-        .wit-sc_inner {
-          .wit-sc_inner-header {
+      .wit-section-wedding_stories {
+        .wit-section-inner {
+          .wit-section-inner-header {
             align-items: center;
           }
         }
       }
 
-      .wit-sc_gallery {
-        .wit-sc_inner {
+      .wit-section-gallery {
+        .wit-section-inner {
           .wit-swiper {
             .wit-gallery-img_wrapper {
               border-radius: 4px;
@@ -330,6 +330,11 @@
 
               &:hover {
                 transform: scale(1.02);
+              }
+
+              img {
+                aspect-ratio: 1/1;
+                object-fit: contain;
               }
             }
             position: relative;
@@ -360,8 +365,8 @@
         }
       }
 
-      .wit-sc_vdo {
-        .wit-sc_inner {
+      .wit-section-vdo {
+        .wit-section-inner {
           .wit-swiper {
             .wit-vdo-card {
               background: rgba(0, 0, 0, 1);
@@ -438,11 +443,11 @@
       }
     }
 
-    .wit-sc_venue_content_inner_right {
-      .wit-sc_contact_venue {
+    .wit-section-venue_content_inner_right {
+      .wit-section-contact_venue {
         position: sticky;
         top: 156px;
-        .wit-sc_inner {
+        .wit-section-inner {
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -501,7 +506,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 9999;
+  z-index: 10005;
   display: none;
 
   &.active {
@@ -527,15 +532,15 @@
     position: relative;
     width: 100%;
     max-width: 726px;
-    height: 100%;
-    // max-height: 90vh;
+    height: fit-content;
+    max-height: 90vh;
     margin: auto;
     background: white;
     border-radius: 12px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    animation: modalSlideIn 0.3s ease-out;
+    animation: modalSlideIn .5s cubic-bezier(0,0,0,1);
   }
 
   .wit-gallery-modal-header {
@@ -561,6 +566,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      pointer-events: auto;
 
       img {
         width: 24px;
@@ -609,6 +615,7 @@
     overflow-y: auto;
     padding: 0;
     margin: 20px 0;
+    padding-bottom: 20px;
   }
 
   .wit-gallery-modal-grid {
@@ -626,6 +633,8 @@
       transition: all 0.3s ease;
       background: #f0f0f0;
       opacity: 1;
+      pointer-events: auto;
+
 
       // Staggered layout for even rows
 
@@ -652,15 +661,15 @@
 
 // Responsive styles
 @include max-w(md) {
-  .wit-sc_header_venue {
-    .wit-sc_header_venue_img_wrapper {
+  .wit-section-header_venue {
+    .wit-section-header_venue_img_wrapper {
       // Hide desktop grid layout
-      .wit-sc_header_venue_img_wrapper_img {
+      .wit-section-header_venue_img_wrapper_img {
         display: none;
       }
 
       // Show mobile swiper
-      .wit-sc_header_venue_swiper {
+      .wit-section-header_venue_swiper {
         display: block;
         height: 280px;
       }
@@ -721,7 +730,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 10000;
+  z-index: 10006;
   display: none;
 
   &.active {
@@ -749,13 +758,14 @@
     border-radius: 12px;
     overflow: hidden;
     animation: modalSlideIn 0.3s ease-out;
+    pointer-events: none;
   }
 
   .wit-gallery-modal-header {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-bottom: 105px;
+    margin-bottom: 24px;
 
     .wit-gallery-modal-close {
       background: none;
@@ -764,6 +774,7 @@
       padding: 8px;
       border-radius: 6px;
       transition: background-color 0.2s ease;
+      pointer-events: auto;
 
       &:hover {
         background-color: #f3f4f6;
@@ -781,6 +792,7 @@
     overflow-y: auto;
     max-width: 1140px;
     margin: 0 auto;
+    pointer-events: auto;
   }
 
   .wit-gallery-total_img {
@@ -796,6 +808,7 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
+    pointer-events: auto;
     span {
       color: $baseColor10;
       font-size: 12px;
@@ -810,7 +823,7 @@
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
   }
 
@@ -893,6 +906,8 @@
         cursor: pointer;
         transition: all 0.3s ease;
         opacity: 0.6;
+        pointer-events: auto;
+
 
         &.swiper-slide-thumb-active {
           opacity: 1;
@@ -947,7 +962,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 10000;
+  z-index: 5;
   display: none;
 
   &.active {
@@ -1067,7 +1082,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 100001;
+  z-index: 10006;
   display: none;
 
   &.active {
@@ -1120,7 +1135,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-bottom: 105px;
+    margin-bottom: 24px;
 
     @include max-w(md) {
       margin-bottom: 0;

@@ -382,7 +382,7 @@
     function initHeaderVenueSwiper() {
       if (window.innerWidth >= 768) {
         if (!headerVenueSwiper) {
-          const headerElement = document.querySelector(".wit-sc_header_venue_swiper");
+          const headerElement = document.querySelector(".wit-section-header_venue_swiper");
           if (headerElement) {
             headerVenueSwiper = new Swiper(headerElement, {
               slidesPerView: 1,
@@ -393,11 +393,11 @@
                 disableOnInteraction: false,
               },
               navigation: {
-                nextEl: ".wit-sc_header_venue_swiper .swiper-button-next",
-                prevEl: ".wit-sc_header_venue_swiper .swiper-button-prev",
+                nextEl: ".wit-section-header_venue_swiper .swiper-button-next",
+                prevEl: ".wit-section-header_venue_swiper .swiper-button-prev",
               },
               pagination: {
-                el: ".wit-sc_header_venue_swiper .swiper-pagination",
+                el: ".wit-section-header_venue_swiper .swiper-pagination",
                 clickable: true,
               },
             });
@@ -614,3 +614,42 @@
     });
   });
 
+
+
+// General tabs functionality
+document.addEventListener("DOMContentLoaded", () => {
+  const tabContainers = document.querySelectorAll(".wit-tabs");
+
+  tabContainers.forEach((container) => {
+    const tabs = container.querySelectorAll(".wit-tab");
+    const tabContents = container.querySelectorAll(".wit-tab-content");
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => {
+        // Remove active class from all tabs and contents
+        tabs.forEach((t) => t.classList.remove("active"));
+        tabContents.forEach((content) =>
+          content.classList.remove("wit-tab-content_active")
+        );
+
+        // Add active class to clicked tab and corresponding content
+        tab.classList.add("active");
+        const tabTarget = tab.getAttribute("data-target");
+        const targetContent = container.querySelector(`.wit-tab-content[data-content="${tabTarget}"]`);
+        if (targetContent) {
+          targetContent.classList.add("wit-tab-content_active");
+        } 
+      });
+    });
+  });
+});
+
+new Swiper('.wit-destination-banner-swiper', {
+  slidesPerView: 1,
+  spaceBetween: 0,
+  speed: 1000,
+  autoplay: {
+    delay: 7000,
+    disableOnInteraction: true,
+  },
+})

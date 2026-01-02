@@ -1,0 +1,16 @@
+@use "./variables.scss" as *;
+
+.wit-chip {
+  padding: 8px 16px;
+  color: $baseColor400;
+  background-color: $baseColor40;
+  font-size: 12px;
+  display: flex;
+  gap: 8px;
+  border-radius: 99px;
+
+  &.primary, &.active {
+    color: $baseColor10;
+    background-color: $baseColor400;
+  }
+}

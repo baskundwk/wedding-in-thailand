@@ -4,6 +4,10 @@ body {
   font-family: "DM Sans";
   color: #060606;
 
+  // Font smoothing
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
   @include min-w(sm) {
   }
 
@@ -21,6 +25,7 @@ body {
 
 main {
   padding-top: 74px;
+  min-height: calc(100svh - 224px);
 
   @include min-w(sm) {
     padding-top: 107px;
@@ -69,4 +74,13 @@ body:not(.logged-in) {
       display: block;
     }
   }
+}
+
+.text-blue {
+  color: $primaryColor !important;
+}
+
+.headline {
+  font-size: 24px;
+  font-weight: 600;
 }
